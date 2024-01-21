@@ -38,8 +38,12 @@ searchContainer.style.visibility = "hidden";
 deleteButton.style.visibility = "hidden";
 
 let word = "";
+let itemsPerPage;
+let totalItems;
+let currentPage = 0;
 let row = [];
 let filteredArray = [];
+let limitedArray = [];
 let currentModel = null;
 let showCurrentModel = false;
 
@@ -76,7 +80,8 @@ function handleButtonClick(event) {
   const model = event.target.innerHTML;
   currentModel = data[model];
   createTableAndInsert(currentModel);
-  updateTable();
+  bottomInput.value = 1;
+  elementLimit.value = "-";
   leftBottomButton.appendChild(
     createButtons(bottomButtons[0], "lBottomBtn", () => {
       prevPage();
@@ -170,8 +175,10 @@ function showModal(property) {
   }
 }
 
-function createTableAndInsert(sqlArray) {
+function createTableAndInsert(sqlArray, indexID) {
   const table = document.createElement(`table`);
+  table.innerHTML = "";
+  tableContentContainer.appendChild(table);
   let displayKeys = false;
   let ID = 0;
   let trID = 1;
@@ -205,6 +212,11 @@ function createTableAndInsert(sqlArray) {
       tr.appendChild(thActions);
 
       displayKeys = true;
+    }
+
+    if (indexID != null) {
+      ID = indexID;
+      console.log("ID = iDindex ", ID);
     }
 
     ID = 0;
@@ -262,7 +274,6 @@ function createTableAndInsert(sqlArray) {
   tableContentContainer.appendChild(table);
   bottomMenu.style.visibility = "visible";
   searchContainer.style.visibility = "visible";
-  elementLimit.value = "-";
 }
 
 function deleteElement(element) {
@@ -427,13 +438,7 @@ function updateTableUsingSelect(value) {
   }
 }
 
-let itemsPerPage; // Default value
-let totalItems; // This will be dependent on your currentModel
-let currentPage;
-
-function updateTable() {
-  // bottomInput.value = 1;
-
+function updateTable(sqlArray) {
   itemsPerPage =
     elementLimit.value === "-"
       ? currentModel.length
@@ -452,7 +457,7 @@ function updateTable() {
   }
 
   bottomInput.value = currentPage;
-  console.log("bottomInput.value ", bottomInput.value);
+  console.log("bottomInput.value currentPage", bottomInput.value);
   bottomInput.placeholder = `[${currentPage}] from ${totalPages}`;
 
   updateTableContent();
@@ -460,16 +465,17 @@ function updateTable() {
 }
 
 function updateTableContent() {
+  // let limitedArray = [];
   let table = document.getElementById("mainTable");
   // table.innerHTML = "";
 
   console.log("currentModel.length ", currentModel.length);
   const startIdx = itemsPerPage === "-" ? 0 : (currentPage - 1) * itemsPerPage;
-  const endIdx =
-    itemsPerPage === "-" ? currentModel.length : currentPage * itemsPerPage;
+  const indexID = currentPage * itemsPerPage;
+  const endIdx = itemsPerPage === "-" ? currentModel.length : indexID;
 
   console.log("currentModel.length ", currentModel.length);
-  console.log("currentPage * itemsPerPage ", currentPage * itemsPerPage);
+  console.log("currentPage * itemsPerPage ", indexID);
 
   //   // for (let i = startIdx; i < endIdx && i < currentModel.length; i++) {
   //   //   const row = table.insertRow();
@@ -485,13 +491,12 @@ function updateTableContent() {
       rows[i].style.display = rowId === filterValue ? "" : "none";
   */
   const rows = table.getElementsByTagName("tr");
-  for (let i = startIdx; i < endIdx && i < rows.length; i++) {
-    // table.rows[i].style.display = i < value ? "" : "none";
-    table.rows[i].style.display = i < itemsPerPage ? "" : "none";
-
-    // const rowId = parseInt(rows[i].cells[0].textContent);
-    rows[i].style.display = i < itemsPerPage ? "" : "none";
+  for (let i = startIdx; i < endIdx && i < currentModel.length; i++) {
+    limitedArray.push(currentModel[i]);
   }
+  console.log("limitedArray outside the for loop", limitedArray);
+  tableContentContainer.innerHTML = "";
+  createTableAndInsert(limitedArray, indexID);
 }
 
 function updatePaginationButtons() {
@@ -505,6 +510,7 @@ function updatePaginationButtons() {
 function prevPage() {
   if (currentPage > 1) {
     currentPage--;
+    bottomInput.value = currentPage--;
     updateTable();
   }
 }
@@ -514,6 +520,7 @@ function nextPage() {
     itemsPerPage === "-" ? 1 : Math.ceil(totalItems / itemsPerPage);
   if (currentPage < totalPages) {
     currentPage++;
+    bottomInput.value = currentPage++;
     updateTable();
   }
 }

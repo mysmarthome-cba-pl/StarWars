@@ -54,7 +54,7 @@ body {
   background-color: var(--gray-400);
   border-radius: 10px;
   display: inline-table;
-  width: 50%;
+  width: 35%;
   padding: 10px;
   font-family: fantasy;
 }
@@ -201,6 +201,18 @@ select#elementLimit {
   background-color: var(--red-900);
 }
 
+#footerContainer {
+  display: none;
+  /* display: flex; */
+  justify-content: center;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
 @media only screen and (max-width: 500px) {
   body {
     width: 100%;
@@ -233,9 +245,6 @@ select#elementLimit {
     display: none;
   }
 
-  /* table {
-    max-width: 50%;
-  } */
   #showModal td {
     max-width: 250px;
   }
