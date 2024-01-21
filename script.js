@@ -98,6 +98,7 @@ function handleButtonClick(event) {
     updateTableUsingSelect(elementLimit.value);
   });
   initialContainer.style.visibility = "hidden";
+  footer.style.visibility = "hidden";
   searchId.placeholder = "Range 0 - " + currentModel.length;
   searchIdBtn.appendChild(
     createButtons(`Search using ID`, "searchIdBtn", () => {

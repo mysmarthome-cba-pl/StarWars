@@ -208,9 +208,23 @@ select#elementLimit {
   padding: 10px;
   text-align: center;
   position: fixed;
-  bottom: 0;
+  bottom: 40px;
   left: 0;
   width: 100%;
+}
+
+#footer {
+  position: fixed;
+  justify-content: center;
+  left: 0;
+  bottom: 0;
+  opacity: 0.9;
+  background-color: var(--gray-700);
+  border-radius: 10px;
+  display: inline-table;
+  width: 100%;
+  color: white;
+  text-align: center;
 }
 
 @media only screen and (max-width: 500px) {
