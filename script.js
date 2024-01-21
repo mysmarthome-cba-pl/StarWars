@@ -1,6 +1,4 @@
 import { data } from "./data.js";
-// const SHOW = "Show Current Model";
-// const HIDE = "Hide Current Model";
 const displayNone = "none";
 const displayBlock = "block";
 
@@ -13,10 +11,8 @@ const searchId = document.getElementById("searchId");
 const searchIdBtn = document.getElementById("searchIdBtn");
 const searchName = document.getElementById("searchName");
 const searchNameBtn = document.getElementById("searchNameBtn");
-// const currentModelPlaceholder = document.getElementById("model");
 const bottomMenu = document.getElementById("bottomMenu");
 const bottomInput = document.getElementById("bottomInput");
-// const showModelButton = document.getElementById("show_model");
 const tableContentContainer = document.getElementById("table_container");
 const showModalContainer = document.getElementById("showModalContainer");
 const showModalWindow = document.getElementById("showModal");
@@ -41,9 +37,9 @@ let word = "";
 let itemsPerPage;
 let totalItems;
 let currentPage = 0;
-let row = [];
+let row;
 let filteredArray = [];
-let limitedArray = [];
+let limitedArray;
 let currentModel = null;
 let showCurrentModel = false;
 
@@ -93,7 +89,6 @@ function handleButtonClick(event) {
     })
   );
   elementLimit.addEventListener("change", () => {
-    console.log("elementLimit addEventListener: ", elementLimit.value);
     updateTable();
     updateTableUsingSelect(elementLimit.value);
   });
@@ -176,14 +171,20 @@ function showModal(property) {
   }
 }
 
-function createTableAndInsert(sqlArray, indexID) {
+function createTableAndInsert(sqlArray, elementsToDisplay) {
   const table = document.createElement(`table`);
   table.innerHTML = "";
   tableContentContainer.appendChild(table);
   let displayKeys = false;
   let ID = 0;
-  let trID = 1;
+  let trID;
   const maxID = 4;
+
+  if (elementsToDisplay != null && elementLimit.value != "-") {
+    trID = 1 + elementsToDisplay - elementLimit.value;
+  } else {
+    trID = 1;
+  }
 
   for (const key in sqlArray) {
     const property = sqlArray[key];
@@ -213,11 +214,6 @@ function createTableAndInsert(sqlArray, indexID) {
       tr.appendChild(thActions);
 
       displayKeys = true;
-    }
-
-    if (indexID != null) {
-      ID = indexID;
-      console.log("ID = iDindex ", ID);
     }
 
     ID = 0;
@@ -319,7 +315,6 @@ function getJoke() {
   async function getapi(url) {
     const response = await fetch(url);
     var data = await response.json();
-    console.log(data);
     if (response) {
       hideloader();
     }
@@ -332,7 +327,6 @@ function getJoke() {
   }
 
   function show(data) {
-    console.log(data.value);
     const joke = data.value;
     showModalWindow.innerText = joke.toUpperCase();
 
@@ -345,11 +339,9 @@ function getJoke() {
 
 function playSound(state) {
   let music = new Audio("audio/imperial_march.wav");
-  console.log(state);
   if (state === "play") {
     music.play();
   } else {
-    console.log("state pause");
     music.pause();
   }
 }
@@ -394,7 +386,6 @@ function filterTablebyID(iDForDisplay) {
       rows[i].style.display = rowId === filterValue ? "" : "none";
     }
   } else {
-    // alert("Enter number from the range: 0 - " + currentModel.length);
     tableContentContainer.innerHTML = "";
     bottomMenu.style.visibility = "hidden";
     noResultsCell.textContent =
@@ -444,8 +435,7 @@ function updateTable(sqlArray) {
     elementLimit.value === "-"
       ? currentModel.length
       : parseInt(elementLimit.value);
-  totalItems = currentModel.length; // Update totalItems based on currentModel length
-  console.log("totalItems ", totalItems);
+  totalItems = currentModel.length;
   currentPage = parseInt(bottomInput.value);
 
   const totalPages =
@@ -458,7 +448,6 @@ function updateTable(sqlArray) {
   }
 
   bottomInput.value = currentPage;
-  console.log("bottomInput.value currentPage", bottomInput.value);
   bottomInput.placeholder = `[${currentPage}] from ${totalPages}`;
 
   updateTableContent();
@@ -466,36 +455,15 @@ function updateTable(sqlArray) {
 }
 
 function updateTableContent() {
-  // let limitedArray = [];
   let table = document.getElementById("mainTable");
-  // table.innerHTML = "";
-
-  console.log("currentModel.length ", currentModel.length);
+  limitedArray = [];
   const startIdx = itemsPerPage === "-" ? 0 : (currentPage - 1) * itemsPerPage;
   const indexID = currentPage * itemsPerPage;
   const endIdx = itemsPerPage === "-" ? currentModel.length : indexID;
 
-  console.log("currentModel.length ", currentModel.length);
-  console.log("currentPage * itemsPerPage ", indexID);
-
-  //   // for (let i = startIdx; i < endIdx && i < currentModel.length; i++) {
-  //   //   const row = table.insertRow();
-  //   //   const cell = row.insertCell(0);
-  //   //   cell.textContent = currentModel[i].title; // Assuming title is a property in your currentModel
-  //   // }
-
-  /*
-    const rows = table.getElementsByTagName("tr");
-
-    for (let i = 1; i < rows.length; i++) {
-      const rowId = parseInt(rows[i].cells[0].textContent);
-      rows[i].style.display = rowId === filterValue ? "" : "none";
-  */
-  const rows = table.getElementsByTagName("tr");
   for (let i = startIdx; i < endIdx && i < currentModel.length; i++) {
     limitedArray.push(currentModel[i]);
   }
-  console.log("limitedArray outside the for loop", limitedArray);
   tableContentContainer.innerHTML = "";
   createTableAndInsert(limitedArray, indexID);
 }
