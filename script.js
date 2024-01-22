@@ -296,7 +296,7 @@ function checkedCheck(property) {
         deleteButton.style.visibility = "visible";
         deleteButton.textContent = `Delete selected?`;
       } else {
-        deleteButton.style.visibility = "none";
+        deleteButton.style.visibility = "hidden";
       }
     });
   });
