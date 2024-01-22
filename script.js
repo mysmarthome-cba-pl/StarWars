@@ -93,6 +93,7 @@ function handleButtonClick(event) {
     updateTableUsingSelect(elementLimit.value);
   });
   initialContainer.style.visibility = "hidden";
+  deleteButton.style.visibility = "hidden";
   footer.style.visibility = "hidden";
   searchId.placeholder = "Range 0 - " + currentModel.length;
   searchIdBtn.appendChild(
