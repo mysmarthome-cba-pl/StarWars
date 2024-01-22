@@ -277,7 +277,7 @@ function deleteElement(element) {
   row.forEach((item) => item.remove());
   deleteButton.innerHTML = "";
   row = [];
-  deleteButton.style.visibility = "visible";
+  deleteButton.style.visibility = "hidden";
 }
 
 function checkedCheck(property) {
