@@ -37,7 +37,7 @@ let word = "";
 let itemsPerPage;
 let totalItems;
 let currentPage = 0;
-let row;
+let row = [];
 let filteredArray = [];
 let limitedArray;
 let currentModel = null;
