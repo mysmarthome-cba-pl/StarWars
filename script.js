@@ -27,6 +27,7 @@ const table = document.getElementById("mainTable");
 const noResultsRow = document.createElement("tr");
 const noResultsCell = document.createElement("td");
 
+const music = new Audio("audio/imperial_march.wav");
 const jokeUrl = "https://api.chucknorris.io/jokes/random?name=starwars";
 
 bottomMenu.style.visibility = "hidden";
@@ -339,7 +340,6 @@ function getJoke() {
 }
 
 function playSound(state) {
-  let music = new Audio("audio/imperial_march.wav");
   if (state === "play") {
     music.play();
   } else {
@@ -355,12 +355,8 @@ function vaderModal() {
   showModalContainer.style.display = "flex";
   showModalContainer.style.alignItems = "center";
   showModalContainer.style.color = "white";
-  const part1 = "Do you want to feel the power?";
-  const part2 = "Hit the PLAY button.";
-  const part3 = "or";
-  const part4 = "enter VADER on your keyboard";
   showModalWindow.innerText =
-    part1 + "\n" + part2 + "\n" + part3 + "\n" + part4;
+    "Do you want to feel the power?\n Hit the PLAY button.\n or\n enter VADER on your keyboard.";
   showModalWindow.appendChild(
     createButtons(`Play`, "playBtn", () => {
       playSound("play");

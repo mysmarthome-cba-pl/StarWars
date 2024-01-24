@@ -174,7 +174,6 @@ select#elementLimit {
   border-radius: 5px;
   color: var(--white);
   background-color: var(--red-900);
-  /* position: absolute; */
   position: fixed;
   bottom: 10px;
   left: 50%;
