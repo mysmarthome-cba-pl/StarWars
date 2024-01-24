@@ -277,8 +277,10 @@ function createTableAndInsert(sqlArray, elementsToDisplay) {
   searchContainer.style.visibility = "visible";
 }
 
-function deleteElement(element) {
-  row.forEach((item) => item.remove());
+let deletedElementsContent = [];
+
+function deleteElement() {
+  Array.from(row).forEach((item) => item.remove());
   deleteButton.innerHTML = "";
   row = [];
   deleteButton.style.visibility = "hidden";
