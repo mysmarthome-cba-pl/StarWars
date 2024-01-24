@@ -61,6 +61,8 @@ closeModalButton.addEventListener(`click`, () => {
   playSound("pause");
   showModalContainer.style.display = displayNone;
   content.classList.remove("blur-background");
+  showModalContainer.style.width = "auto";
+  showModalContainer.style.height = "auto";
 });
 
 keys.forEach((key) => {
@@ -497,9 +499,9 @@ tableContentContainer.addEventListener("click", () => {
 deleteButton.addEventListener("click", deleteElement);
 jokeButton.addEventListener("click", () => {
   getJoke();
-  initialContainer.style.visibility = "hidden";
+  // initialContainer.style.visibility = "hidden";
 });
 vaderButton.addEventListener("click", () => {
   vaderModal();
-  initialContainer.style.visibility = "hidden";
+  // initialContainer.style.visibility = "hidden";
 });
