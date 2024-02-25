@@ -98,6 +98,7 @@ function handleButtonClick(event) {
   initialContainer.style.visibility = "hidden";
   deleteButton.style.visibility = "hidden";
   footer.style.visibility = "hidden";
+  footerContainer.style.visibility = "hidden";
   searchId.placeholder = "Range 0 - " + currentModel.length;
   searchIdBtn.appendChild(
     createButtons(`Search using ID`, "searchIdBtn", () => {

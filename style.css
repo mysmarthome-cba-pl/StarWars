@@ -203,8 +203,7 @@ select#elementLimit {
 }
 
 #footerContainer {
-  display: none;
-  /* display: flex; */
+  display: flex;
   justify-content: center;
   padding: 10px;
   text-align: center;
